@@ -1,4 +1,4 @@
-﻿@model List<Product>
+﻿@model ProductListViewModel
 @{
     ViewBag.Title = "Product List";
 }
@@ -6,18 +6,18 @@
 <h1>Product List</h1>
 <div class="row">
     <div class="col-sm-2">
-            <a asp-controller="Product" asp-action="List" asp-route-id="All" 
-                class="list-group-item 
-                @(ViewBag.SelectedCategoryName == "All" ? "active" : "")">
+        <a asp-controller="Product" asp-action="List" asp-route-id="All" 
+        class="list-group-item 
+                @(Model.CheckActiveCategory("All"))">
                 All
             </a>
 
-            @foreach (Category c in ViewBag.Categories)
+            @foreach (Category c in Model.Categories)
             {
 
                     <a asp-controller="Product" asp-action="List" asp-route-id="@c.Name" 
                        class="list-group-item
-                             @(ViewBag.SelectedCategoryName == c.Name ? "active" : "")">
+                             @(Model.CheckActiveCategory(c.Name))">
                         @c.Name
                     </a>
 
@@ -25,32 +25,32 @@
     </div>
 
     <div class="col-sm-10">
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th></th>
-                    <th></th>
-            </thead>
-            <tbody>
-                @foreach (var product in Model)
-                {
+            <table class="table table-bordered table-striped">
+                <thead>
                     <tr>
-                        <td>@product.Name</td>
-                        <td>@product.Price.ToString("C")</td>
-                        <td>
-                            <a asp-controller="Product" asp-action="Details"
-                               asp-route-id="@product.ProductID"
-                               asp-route-slug="@product.Slug">View Details</a>
-                        </td>
-                        <td>
-                            <a asp-controller="Cart" asp-action="Add"
-                               asp-route-id="@product.Slug">Add to Cart</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th></th>
+                        <th></th>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model.Products)
+                    {
+                        <tr>
+                            <td>@product.Name</td>
+                            <td>@product.Price.ToString("C")</td>
+                            <td>
+                                <a asp-controller="Product" asp-action="Details"
+                                asp-route-id="@product.ProductID"
+                                asp-route-slug="@product.Slug">View Details</a>
+                            </td>
+                            <td>
+                                <a asp-controller="Cart" asp-action="Add"
+                                asp-route-id="@product.Slug">Add to Cart</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
         </table>
     </div>
 </div>
